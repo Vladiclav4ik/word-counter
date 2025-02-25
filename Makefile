@@ -9,7 +9,7 @@ $(TARGET): main.cpp
 
 install:
 	mkdir -p $(DESTDIR)/usr/local/bin
-	cp $(TARGET) $(DESTDIR)/usr/local/bin/
+	sudo cp $(TARGET) $(DESTDIR)/usr/local/bin/
 
 clean:
 	rm -f $(TARGET)
