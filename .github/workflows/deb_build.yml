@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: word_counter
-          path: usr/bin/word_counter
+          path: ./usr/bin/word_counter
 
   package:
     runs-on: ubuntu-latest
