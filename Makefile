@@ -6,7 +6,7 @@ all: $(TARGET)
 
 $(TARGET): src/main.cpp
 	$(CC) $(CFLAGS) -o $(TARGET) src/main.cpp
-	cp $(TARGET) $(dir $(PWD))/usr/bin
+	cp $(TARGET) $(dir $(PWD))usr/bin
 
 clean:
 	rm -f $(TARGET)
