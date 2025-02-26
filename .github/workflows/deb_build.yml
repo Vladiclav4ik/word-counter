@@ -22,9 +22,9 @@ jobs:
 
       - name: Create DEB package
         run: |
-          mkdir -p deb_package/usr/local/bin
-          cp word_counter deb_package/usr/local/bin/
-          mkdir -p deb_package/DEBIAN
+          mkdir -p usr/bin
+          cp word_counter usr/bin/
+          mkdir -p DEBIAN
           echo "Package: word-counter
           Version: 1.0
           Section: utils
