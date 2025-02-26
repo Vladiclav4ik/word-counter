@@ -49,7 +49,8 @@ jobs:
         run: sudo apt update && sudo apt install -y dpkg-dev
 
       - name: Build the Debian package
-        run: mkdir -p package/usr/bin
+        run: |
+          mkdir -p package/usr/bin
           cp word_counter package/usr/bin/
           mkdir -p package/DEBIAN
           cp DEBIAN/control package/DEBIAN/
