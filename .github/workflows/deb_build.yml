@@ -54,6 +54,7 @@ jobs:
           cp word_counter package/usr/bin/
           mkdir -p package/DEBIAN
           cp DEBIAN/control package/DEBIAN/
+          cp DEBIAN/postinst package/DEBIAN/
           dpkg-deb --build package word_counter.deb
 
       - name: Upload Debian package
