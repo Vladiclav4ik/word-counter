@@ -4,12 +4,9 @@ TARGET=word_counter
 
 all: $(TARGET)
 
-$(TARGET): main.cpp
-	$(CC) $(CFLAGS) -o $(TARGET) main.cpp
-
-install:
-	mkdir -p $(DESTDIR)/usr/local/bin
-	sudo cp $(TARGET) $(DESTDIR)/usr/local/bin/
+$(TARGET): src/main.cpp
+	$(CC) $(CFLAGS) -o $(TARGET) src/main.cpp
+	cp $(TARGET) $(PWD)/usr/bin
 
 clean:
 	rm -f $(TARGET)
