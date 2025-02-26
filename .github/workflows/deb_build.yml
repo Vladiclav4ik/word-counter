@@ -42,7 +42,7 @@ jobs:
       - name: Build the Debian package
         run: |
           mkdir -p package/usr/bin
-          cp word_counter package/usr/bin/
+          cp usr/bin/word_counter package/usr/bin/
           mkdir -p package/DEBIAN
           cp DEBIAN/control package/DEBIAN/
           dpkg-deb --build package word_counter.deb
