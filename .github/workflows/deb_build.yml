@@ -11,7 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -23,18 +22,25 @@ jobs:
         run: make
 
       - name: Verify the binary
-        run: usr/bin/word_counter --help || echo "Binary check failed"
+        run: ./usr/bin/word_counter --help || echo "Binary check failed"
 
-      - name: Clean up
-        run: make clean
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: word_counter
+          path: usr/bin/word_counter
 
   package:
     runs-on: ubuntu-latest
     needs: build
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Download binary artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: word_counter
 
       - name: Install dpkg-dev
         run: sudo apt update && sudo apt install -y dpkg-dev
@@ -42,14 +48,13 @@ jobs:
       - name: Build the Debian package
         run: |
           mkdir -p package/usr/bin
-          cp usr/bin/word_counter package/usr/bin/
+          cp word_counter package/usr/bin/
           mkdir -p package/DEBIAN
           cp DEBIAN/control package/DEBIAN/
           dpkg-deb --build package word_counter.deb
 
       - name: Upload Debian package
         uses: actions/upload-artifact@v4
-
         with:
           name: word_counter-deb
           path: word_counter.deb
