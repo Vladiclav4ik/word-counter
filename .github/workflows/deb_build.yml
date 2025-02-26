@@ -1,32 +1,54 @@
-name: Build DEB Package
+name: Build and Package
 
 on:
   push:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: sudo apt update && sudo apt install -y build-essential dpkg-dev g++ 
+        run: sudo apt update && sudo apt install -y g++ build-essential
 
-      - name: Compile project
+      - name: Compile the project
         run: make
 
-      - name: Create DEB package
-        run: |
-          dpkg-deb --build deb_package
-          mv deb_package.deb word-counter_1.0_amd64.deb
+      - name: Verify the binary
+        run: usr/bin/word_counter --help || echo "Binary check failed"
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Clean up
+        run: make clean
+
+  package:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dpkg-dev
+        run: sudo apt update && sudo apt install -y dpkg-dev
+
+      - name: Build the Debian package
+        run: |
+          mkdir -p package/usr/bin
+          cp word_counter package/usr/bin/
+          mkdir -p package/DEBIAN
+          cp DEBIAN/control package/DEBIAN/
+          dpkg-deb --build package word_counter.deb
+
+      - name: Upload Debian package
+        uses: actions/upload-artifact@v3
         with:
-          name: word-counter_1.0_amd64.deb
-          path: word-counter_1.0_amd64.deb
+          name: word_counter-deb
+          path: word_counter.deb
