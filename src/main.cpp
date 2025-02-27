@@ -1,17 +1,5 @@
 #include <iostream>
-#include <sstream>
-#include <string>
-
-// Функция для подсчёта слов
-size_t countWords(const std::string& str) {
-    std::istringstream stream(str);
-    std::string word;
-    size_t wordCount = 0;
-    while (stream >> word) {
-        ++wordCount;
-    }
-    return wordCount;
-}
+#include "word_counter.h"
 
 int main() {
     std::string input;
