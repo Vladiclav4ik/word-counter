@@ -33,9 +33,25 @@ jobs:
           name: word_counter
           path: usr/bin/word_counter
 
-  package:
+  test:
     runs-on: ubuntu-latest
     needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install testing dependencies
+        run: sudo apt update && sudo apt install -y g++ build-essential cmake libgtest-dev
+
+      - name: Compile tests
+        run: make tester
+
+      - name: Run tests
+        run: ./tester_runner
+
+  package:
+    runs-on: ubuntu-latest
+    needs: test
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
